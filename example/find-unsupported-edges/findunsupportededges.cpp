@@ -534,7 +534,7 @@ void recordSupportedNodes(const map<const NxsSimpleNode *, set<long> > & refNdp2
 						  const set<long> & leafSet,
 						  const map<const NxsSimpleNode *, set<long> > & srcNdp2mrca) {
 	assert(gAPrioriProblemNode.empty() == gNoAprioriTests);
-	if (false) {//debugging
+	if (true) {//debugging
 		cerr << "sourceClades:\n";
 		for (map<set<long>, const NxsSimpleNode *>::const_iterator scit = sourceClades.begin(); scit != sourceClades.end(); ++scit) {
 			cerr << "  clade: ";
@@ -545,7 +545,7 @@ void recordSupportedNodes(const map<const NxsSimpleNode *, set<long> > & refNdp2
 
 	for (map<const NxsSimpleNode *, set<long> >::const_iterator nsIt = refNdp2mrca.begin(); nsIt != refNdp2mrca.end(); ++nsIt) {
 		const NxsSimpleNode * nd = nsIt->first;
-		const bool printDB = false; //gAPrioriProblemNode.find(nd) != gAPrioriProblemNode.end();
+		const bool printDB = gAPrioriProblemNode.find(nd) != gAPrioriProblemNode.end();
 		const NxsSimpleNode * par = nd->GetEdgeToParentRef().GetParent();
 		if (par != 0) {
 			const set<long> & nm = nsIt->second;
