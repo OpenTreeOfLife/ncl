@@ -28,7 +28,8 @@ libncl_la_HEADERS = \
 	nxstoken.h \
 	nxstreesblock.h \
 	nxsunalignedblock.h \
-	nxsutilcopy.h
+	nxsutilcopy.h \
+	othelpers.h
 
 libncl_la_SOURCES = \
 	nxsassumptionsblock.cpp \
@@ -47,5 +48,6 @@ libncl_la_SOURCES = \
 	nxstaxaassociationblock.cpp \
 	nxstoken.cpp \
 	nxstreesblock.cpp \
-	nxsunalignedblock.cpp
+	nxsunalignedblock.cpp \
+	othelpers.cpp
 

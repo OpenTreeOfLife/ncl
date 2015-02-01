@@ -6,6 +6,7 @@ SUBDIRS = basiccmdline \
 	nclsimplest \
 	ncltest \
 	normalizer \
+	ot-prune-taxonomy \
 	ot-subtree \
 	ot-tree-inspect \
 	outdeg1count \

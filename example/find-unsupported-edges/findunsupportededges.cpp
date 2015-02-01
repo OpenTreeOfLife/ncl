@@ -88,7 +88,6 @@ const NxsSimpleNode * findNextSignificantNode(const NxsSimpleNode * node, const 
 		}
 		currNode = sc;
 	}
-
 }
 
 
