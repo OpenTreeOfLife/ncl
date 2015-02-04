@@ -38,7 +38,6 @@ int readFilepathAsNEXUS(const char *filename,
 						ProcessedTreeValidationFunction func, 
 						void * blob=0L);
 
-/*! \returns 0 on success*/
 int readFilesListedInFile(const char *masterFilepath,
 						  MultiFormatReader::DataFormatType fmt,
 						  ProcessedTreeValidationFunction func, /*!< your pointer to your callback function */
@@ -53,6 +52,19 @@ inline const std::string & getStrOrThrow(const T & nd, const std::map<T, std::st
 }
 
 /// impl
+
+void useChildrenToFillMRCASet(const NxsSimpleNode * nd,
+				 std::map<const NxsSimpleNode *,std::set<long> > &n2m) {
+	const std::vector<NxsSimpleNode *> children = nd->GetChildren();
+	std::set<long> & mrca = n2m[nd];
+	for (std::vector<NxsSimpleNode *>::const_iterator cIt = children.begin(); cIt != children.end(); ++cIt) {
+		const NxsSimpleNode * c = *cIt;
+		assert(n2m.find(c) != n2m.end());
+		std::set<long> & csl = n2m[c];
+		mrca.insert(csl.begin(), csl.end());
+	}
+}
+
 
 inline long ottIDFromName(const std::string & n) {
 	//cout << "name \"" << n << "\"\n";

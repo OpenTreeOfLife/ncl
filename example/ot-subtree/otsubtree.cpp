@@ -35,17 +35,6 @@ bool newTreeHook(NxsFullTreeDescription &, void *, NxsTreesBlock *);
 
 void describeUnnamedNode(const NxsTaxaBlockAPI* taxa, const NxsSimpleNode &, ostream & out);
 
-void fillAncMRCA(const NxsSimpleNode * nd, map<const NxsSimpleNode *, set<long> > &n2m) {
-	const vector<NxsSimpleNode *> children = nd->GetChildren();
-	set<long> & mrca = n2m[nd];
-	for (vector<NxsSimpleNode *>::const_iterator cIt = children.begin(); cIt != children.end(); ++cIt) {
-		const NxsSimpleNode * c = *cIt;
-		if (n2m.find(c) != n2m.end()) {
-			set<long> & csl = n2m[c];
-			mrca.insert(csl.begin(), csl.end());
-		}
-	}
-}
 
 /* use some globals, because I'm being lazy... */
 string gCurrentFilename;
@@ -135,7 +124,7 @@ bool processRefTree(const NxsTaxaBlockAPI * tb, const NxsSimpleTree * tree) {
 				refNdp2mrca[nd].insert(ottID);
 			}
 		} else {
-			fillAncMRCA(nd, refNdp2mrca);
+			useChildrenToFillMRCASet(nd, refNdp2mrca);
 			if (refNdp2mrca[nd].size() == numMRCADesignators) {
 				writeNewickSubtree(cout, nd, leafNode2name);
 				cout << ";\n";
