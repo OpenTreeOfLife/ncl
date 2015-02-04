@@ -167,6 +167,6 @@ int main(int argc, char *argv[]) {
 		}
 		gMRCADesignatorSet.insert(mott);
 	}
-	gOTCLI.readFilepath(filepath, 0L, 0L);
+	gOTCLI.readFilepath(filepath, newTreeHook);
 	return gOTCLI.exitCode;
 }
