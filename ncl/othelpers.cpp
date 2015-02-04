@@ -147,6 +147,11 @@ bool OTCLI::parseArgs(int argc, char *argv[], std::vector<std::string> args) {
 	return true;
 }
 
+bool OTCLI::isDotTxtFile(const std::string &fp) {
+	const size_t fnl = fp.length();
+	return (fp.substr(fnl - 4) == string(".txt"));
+}
+
 int OTCLI::readFilepath(const std::string &fp, ProcessedTreeValidationFunction func, void * blob) {
 	const size_t sp = fp.find_last_of('/');
 	if (sp == std::string::npos) {
@@ -155,5 +160,47 @@ int OTCLI::readFilepath(const std::string &fp, ProcessedTreeValidationFunction f
 		this->currentFilename = fp.substr(sp + 1);
 	}
 	this->currTmpFilepath = std::string("tmp/") + this->currentFilename;
+	this->currReadingDotTxtFile = this->isDotTxtFile(this->currentFilename);
 	return readFilepathAsNEXUS(fp.c_str(), this->fmt, func, blob);
+}
+
+//@recursive!
+void fillTipOTTIDs(const map<long, const NxsSimpleNode *> &taxonomy,
+					long ottID,
+					set<long> & tipOTTIDs,
+					map<const NxsSimpleNode*, long> & taxNode2ottID) {
+	map<long, const NxsSimpleNode *>::const_iterator tnIt = taxonomy.find(ottID);
+	assert(tnIt != taxonomy.end());
+	const NxsSimpleNode * tn = tnIt->second;
+	vector<NxsSimpleNode *> children = tn->GetChildren();
+	const unsigned outDegree = children.size();
+	if (outDegree == 0) {
+		tipOTTIDs.insert(taxNode2ottID[tn]);
+	} else {
+		for (vector<NxsSimpleNode *>::const_iterator cIt = children.begin(); cIt != children.end(); ++cIt) {
+			long ct = taxNode2ottID[*cIt];
+			fillTipOTTIDs(taxonomy, ct, tipOTTIDs, taxNode2ottID);
+		}
+	}
+}
+
+bool isTheMrcaInThisLeafSet(const NxsSimpleNode * nd,
+					   const map<const NxsSimpleNode *, set<long> > & refNdp2mrcaThisLeafSet) {
+	vector<NxsSimpleNode *> children = nd->GetChildren();
+	const unsigned outDegree = children.size();
+	if (outDegree < 2) {
+		return false;
+	}
+	bool foundFirstInf = false;
+	for (vector<NxsSimpleNode *>::const_iterator cIt = children.begin(); cIt != children.end(); ++cIt) {
+		const NxsSimpleNode * c = *cIt;
+		const map<const NxsSimpleNode *, set<long> >::const_iterator rmIt = refNdp2mrcaThisLeafSet.find(c);
+		if (rmIt != refNdp2mrcaThisLeafSet.end()) {
+			if (foundFirstInf) {
+				return true;
+			}
+			foundFirstInf = true;
+		}
+	}
+	return false;
 }

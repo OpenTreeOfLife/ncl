@@ -18,10 +18,17 @@ long getOTTIndex(const NxsTaxaBlockAPI * taxa,
 const NxsSimpleNode * findNextSignificantNode(const NxsSimpleNode * node,
 											  const std::map<const NxsSimpleNode *,std::set<long> > & ndp2mrca);
 void describeUnnamedNode(const NxsSimpleNode *nd,
-						 std::ostream & out, unsigned int anc,
+						 std::ostream & out,
+						 unsigned int anc,
 						 const std::map<const NxsSimpleNode *, std::string> & tipNameMap,
 						 bool useNdNames);
 void writeSet(std::ostream & out, const char *indent, const std::set<long> &fir, const char * sep);
+void fillTipOTTIDs(const std::map<long, const NxsSimpleNode *> &taxonomy,
+					long ottID,
+					std::set<long> & tipOTTIDs,
+					std::map<const NxsSimpleNode*, long> & taxNode2ottID);
+bool isTheMrcaInThisLeafSet(const NxsSimpleNode * nd,
+							const std::map<const NxsSimpleNode *, std::set<long> > & refNdp2mrcaThisLeafSet);
 const std::string & getLeftmostDesName(const NxsSimpleNode *nd,
 									   const std::map<const NxsSimpleNode *, std::string> & tipNameMap,
 									   bool useNdNames);
@@ -379,12 +386,24 @@ inline void writeNewickOTTIDs(std::ostream &out,
 	out << ";\n";
 }
 
+
+inline bool IsRedundantNodeAroundTip(const NxsSimpleNode * nd) {
+	if (nd->IsTip()) {
+		return true;
+	}
+	if (nd->GetOutDegree() == 1) {
+		return IsRedundantNodeAroundTip(nd->GetFirstChild());
+	}
+	return false;
+}
+
 class OTCLI {
 	public:
 		OTCLI(const char *title, const char *usage)
 			:exitCode(0),
 			verbose(false),
 			strictLevel(2),
+			currReadingDotTxtFile(false),
 			fmt(MultiFormatReader::RELAXED_PHYLIP_TREE_FORMAT),
 			titleStr(title),
 			usageStr(usage) {
@@ -392,6 +411,7 @@ class OTCLI {
 		int exitCode;
 		bool verbose;
 		long strictLevel;
+		bool currReadingDotTxtFile;
 		std::string currentFilename;
 		std::string currTmpFilepath;
 
@@ -400,6 +420,7 @@ class OTCLI {
 						  void * blob=0L);
 		bool parseArgs(int argc, char *argv[], std::vector<std::string> args);
 		void printHelp(std::ostream & out);
+		bool isDotTxtFile(const std::string &fp);
 	private:
 		MultiFormatReader::DataFormatType fmt;
 		std::string titleStr;
