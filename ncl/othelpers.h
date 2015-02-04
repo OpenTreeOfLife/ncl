@@ -53,6 +53,32 @@ inline const std::string & getStrOrThrow(const T & nd, const std::map<T, std::st
 
 /// impl
 
+
+inline void writeNewickSubtree(std::ostream & out,
+								const NxsSimpleNode * sr,
+								std::map<const NxsSimpleNode *, std::string > & leafNode2name) {
+	assert(sr != 0);
+	if (sr->IsTip()) {
+		out << NxsString::GetEscaped(leafNode2name[sr]);
+	} else {
+		out << '(';
+		bool first = true;
+		const std::vector<NxsSimpleNode *> children = sr->GetChildren();
+		for (std::vector<NxsSimpleNode *>::const_iterator cIt = children.begin(); cIt != children.end(); ++cIt) {
+			const NxsSimpleNode * child = *cIt;
+			if (first) {
+				first = false;
+			} else {
+				out << ',';
+			}
+			writeNewickSubtree(out, child, leafNode2name);
+		}
+		assert(!first);
+		out << ')';
+	}
+}
+
+
 void useChildrenToFillMRCASet(const NxsSimpleNode * nd,
 				 std::map<const NxsSimpleNode *,std::set<long> > &n2m) {
 	const std::vector<NxsSimpleNode *> children = nd->GetChildren();
