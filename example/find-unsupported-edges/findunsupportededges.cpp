@@ -1,33 +1,6 @@
-//	Copyright (C) 2007-2008 Mark T. Holder
-//
-//	This file is part of NCL (Nexus Class Library).
-//
-//	NCL is free software; you can redistribute it and/or modify
-//	it under the terms of the GNU General Public License as published by
-//	the Free Software Foundation; either version 2 of the License, or
-//	(at your option) any later version.
-//
-//	NCL is distributed in the hope that it will be useful,
-//	but WITHOUT ANY WARRANTY; without even the implied warranty of
-//	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-//	GNU General Public License for more details.
-//
-//	You should have received a copy of the GNU General Public License
-//	along with NCL; if not, write to the Free Software Foundation, Inc.,
-//	59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-//
-
-#include "ncl/ncl.h"
-#include "ncl/nxsblock.h"
-#include "ncl/nxspublicblocks.h"
-#include "ncl/nxsmultiformat.h"
-#include <cassert>
-#include "ncl/nxsdefs.h"
-#include "ncl/nxstreesblock.h"
-
+#include <fstream>
+#include "ncl/othelpers.h"
 using namespace std;
-long gStrictLevel = 2;
-bool gVerbose = false;
 void processContent(PublicNexusReader & nexusReader, ostream *out);
 
 bool newTreeHook(NxsFullTreeDescription &, void *, NxsTreesBlock *);
@@ -174,31 +147,6 @@ inline const std::string & getStrOrThrow(const T & nd, const std::map<T, std::st
 	return tnIt->second;
 }
 
-const string & getLeftmostDesName(const NxsSimpleNode *nd, const map<const NxsSimpleNode *, string> & tipNameMap, bool useNdNames) {
-	if (useNdNames) {
-		const string & name = nd->GetName();
-		if (!name.empty()) {
-			return name;
-		}
-	}
-	if (nd->IsTip()) {
-		return getStrOrThrow(nd, tipNameMap);
-	}
-	return getLeftmostDesName(nd->GetFirstChild(), tipNameMap, useNdNames);
-}
-
-const string &  getRightmostDesName(const NxsSimpleNode *nd, const map<const NxsSimpleNode *, string> & tipNameMap, bool useNdNames) {
-	if (useNdNames) {
-		const string & name = nd->GetName();
-		if (!name.empty()) {
-			return name;
-		}
-	}
-	if (nd->IsTip()) {
-		return getStrOrThrow(nd, tipNameMap);
-	}
-	return getRightmostDesName(nd->GetLastChild(), tipNameMap, useNdNames);
-}
 
 void describeUnnamedNode(const NxsSimpleNode *nd, ostream & out, unsigned int anc, const map<const NxsSimpleNode *, string> & tipNameMap, bool useNdNames) {
 	if (useNdNames && nd->GetName().length() > 0) {

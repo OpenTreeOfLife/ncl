@@ -23,11 +23,11 @@ void describeUnnamedNode(const NxsSimpleNode *nd,
 						 bool useNdNames);
 void writeSet(std::ostream & out, const char *indent, const std::set<long> &fir, const char * sep);
 const std::string & getLeftmostDesName(const NxsSimpleNode *nd,
-									   const std::map<const NxsSimpleNode *,
-									   std::string> & tipNameMap, bool useNdNames);
+									   const std::map<const NxsSimpleNode *, std::string> & tipNameMap,
+									   bool useNdNames);
 const std::string &  getRightmostDesName(const NxsSimpleNode *nd,
-									const std::map<const NxsSimpleNode *, std::string> & tipNameMap,
-									bool useNdNames);
+										 const std::map<const NxsSimpleNode *, std::string> & tipNameMap,
+										 bool useNdNames);
 const NxsSimpleNode * findFirstBranchingAnc(const NxsSimpleNode *nd);
 void writeNewickOTTIDs(std::ostream &out,
 					   const NxsSimpleTree * tree,
@@ -299,7 +299,10 @@ const NxsSimpleNode * findMRCAFromIDSet(const std::map<long, const NxsSimpleNode
 	return 0L;
 }
 
-inline void writeSet(std::ostream & out, const char *indent, const std::set<long> &fir, const char * sep) {
+inline void writeOttSet(std::ostream & out,
+						const char *indent,
+						const std::set<long> &fir,
+						const char * sep) {
 	for (std::set<long>::const_iterator rIt = fir.begin(); rIt != fir.end(); ++rIt) {
 		if (rIt != fir.begin()) {
 			out << sep;
@@ -308,6 +311,23 @@ inline void writeSet(std::ostream & out, const char *indent, const std::set<long
 	}
 }
 
+inline void writeOttSetDiff(std::ostream & out,
+							const char *indent,
+							const std::set<long> &fir,
+							const char *firN,
+							const std::set<long> & sec,
+							const char *secN) {
+	for (std::set<long>::const_iterator rIt = fir.begin(); rIt != fir.end(); ++rIt) {
+		if (sec.find(*rIt) == sec.end()) {
+			out << indent << "ott" << *rIt << " is in " << firN << " but not " << secN << "\n";
+		}
+	}
+	for (std::set<long>::const_iterator rIt = sec.begin(); rIt != sec.end(); ++rIt) {
+		if (fir.find(*rIt) == fir.end()) {
+			out << indent << "ott" << *rIt << " is in " << secN << " but not " << firN << "\n";
+		}
+	}
+}
 
 inline const std::string & getLeftmostDesName(const NxsSimpleNode *nd,
 									   const std::map<const NxsSimpleNode *,
@@ -359,7 +379,32 @@ inline void writeNewickOTTIDs(std::ostream &out,
 	out << ";\n";
 }
 
+class OTCLI {
+	public:
+		OTCLI(const char *title, const char *usage)
+			:exitCode(0),
+			verbose(false),
+			strictLevel(2),
+			fmt(MultiFormatReader::RELAXED_PHYLIP_TREE_FORMAT),
+			titleStr(title),
+			usageStr(usage) {
+			}
+		int exitCode;
+		bool verbose;
+		long strictLevel;
+		std::string currentFilename;
+		std::string currTmpFilepath;
 
+		int readFilepath(const std::string &fp,
+						  ProcessedTreeValidationFunction func=0L,
+						  void * blob=0L);
+		bool parseArgs(int argc, char *argv[], std::vector<std::string> args);
+		void printHelp(std::ostream & out);
+	private:
+		MultiFormatReader::DataFormatType fmt;
+		std::string titleStr;
+		std::string usageStr;
+};
 
 
 #endif
