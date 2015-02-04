@@ -38,7 +38,6 @@ ostream * gCurrTmpOstream = 0L;
 bool gReadingTxtFile = false;
 map<long, set<long> > gNonMono;
 const bool gTrustNamedNodes = true;
-map<const NxsSimpleNode *, long> gExpanded;
 map<long, const NxsSimpleNode *> gTabooLeaf;
 set<long> gTaxLeafOTTIDs;
 map<const NxsSimpleNode *, set<long> > gAPrioriProblemNode;
@@ -47,6 +46,7 @@ int gRefTreeNumNamedInternalsNodes = 0;
 int gExitCode = 0;
 
 void summarize(ostream & out) {
+	
 }
 
 

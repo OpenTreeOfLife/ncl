@@ -434,6 +434,7 @@ void processTaxonomyTree(const NxsTaxaBlockAPI * tb, const NxsSimpleTree * tree)
 	vector<const NxsSimpleNode *> nodes =  tree->GetPreorderTraversal();
 	for (vector<const NxsSimpleNode *>::const_iterator nIt = nodes.begin(); nIt != nodes.end(); ++nIt) {
 		const NxsSimpleNode * nd = *nIt;
+		std::cerr << "nd->GetName()  = " << nd->GetName() << '\n';
 		long ottID = getOTTIndex(tb, **nIt);
 		assert(ottID >= 0);
 		assert(gOttID2TaxNode.find(ottID) == gOttID2TaxNode.end());
