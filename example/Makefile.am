@@ -15,4 +15,5 @@ SUBDIRS = basiccmdline \
 	polytomy-count \
 	splitsinfile \
 	subsetter \
+	find-higher-taxa-trees \
 	translate
