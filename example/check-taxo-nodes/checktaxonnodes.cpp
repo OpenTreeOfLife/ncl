@@ -35,7 +35,7 @@ void processRefTree(const NxsTaxaBlockAPI * tb, const NxsSimpleTree * tree) {
 			gRefLeafSet.insert(ottID);
 		} else {
 			useChildrenToFillMRCASet(nd, gRefNdp2mrca);
-			if (ottID > 0) {
+			if (ottID >= 0) {
 				gRefNamedNodes[nd] = ottID;
 			}
 		}
@@ -136,9 +136,6 @@ bool newTreeHook(NxsFullTreeDescription &ftd, void * arg, NxsTreesBlock *treesB)
 		const char * msg = "Exepting only 2 files: the tree file, and then the taxonomy\n";
 		std::cerr << msg;
 		throw NxsException(msg);
-	}
-	if (gRefTree != nst && gTaxonTree != nst) {
-		delete nst;
 	}
 	return false;
 }
