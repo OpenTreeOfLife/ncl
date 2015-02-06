@@ -187,6 +187,7 @@ AC_CONFIG_FILES([					\
 	example/check-taxo-nodes/Makefile	\
 	example/compressor/Makefile	\
 	example/find-unsupported-edges/Makefile	\
+	example/find-higher-taxa-trees/Makefile	\
 	example/gapcode/Makefile		\
 	example/ot-prune-taxonomy/Makefile \
 	example/ot-subtree/Makefile \
