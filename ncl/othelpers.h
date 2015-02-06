@@ -418,7 +418,7 @@ class OTCLI {
 		int readFilepath(const std::string &fp,
 						  ProcessedTreeValidationFunction func=0L,
 						  void * blob=0L);
-		bool parseArgs(int argc, char *argv[], std::vector<std::string> args);
+		bool parseArgs(int argc, char *argv[], std::vector<std::string> & args);
 		void printHelp(std::ostream & out);
 		bool isDotTxtFile(const std::string &fp);
 	private:
