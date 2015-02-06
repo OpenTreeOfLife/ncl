@@ -1,0 +1,5 @@
+LDADD       = @top_builddir@/ncl/libncl.la
+AM_CPPFLAGS = -I@top_srcdir@/ncl
+bin_PROGRAMS = findhighertaxontips
+findunsupportededges_SOURCES = findhighertaxontips.cpp
+findunsupportededges_CPPFLAGS = $(AM_CPPFLAGS)
