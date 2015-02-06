@@ -1,8 +1,51 @@
+#include <string>
+#include <fstream>
 #include "ncl/othelpers.h"
 #include "ncl/ncl.h"
 #include "ncl/nxsblock.h"
 #include "ncl/nxspublicblocks.h"
+
+
+// UTF-8 parsing from http://stackoverflow.com/questions/4775437/read-unicode-utf-8-file-into-wstring
+// http://stackoverflow.com/questions/4804298/how-to-convert-wstring-into-string
+#include <locale>
+#include <iostream>
+#include <clocale>
+#include <string>
+#include <fstream>
+#include <cstdlib>
+
+#include "rapidjson/document.h"
 using namespace std;
+NxsSimpleTree * OTCLI::readTreeFromNexSONv_1_2(const std::string &filepath, const std::string & tree_id) {
+	std::setlocale(LC_ALL, "");
+	const std::locale empty_locale("");
+	typedef std::codecvt<wchar_t, char, std::mbstate_t> converter_type;
+	const converter_type& converter = std::use_facet<converter_type>(empty_locale);
+
+	const std::locale utf8_locale = std::locale(empty_locale, &converter);
+	std::wifstream inp("en_US.UTF8");
+	inp.imbue(utf8_locale);
+	const std::wstring wideNexSONContent((std::istreambuf_iterator<wchar_t>(inp) ), (std::istreambuf_iterator<wchar_t>()));
+	std::vector<char> to(wideNexSONContent.length() * converter.max_length());
+	std::mbstate_t state;
+	const wchar_t* from_next;
+	char* to_next;
+	const converter_type::result result = converter.out(state,
+														wideNexSONContent.data(),
+														wideNexSONContent.data() + wideNexSONContent.length(),
+														from_next,
+														&to[0],
+														&to[0] + to.size(),
+														to_next);
+	if (result == converter_type::ok or result == converter_type::noconv) {
+		const std::string ccontent(&to[0], to_next);
+		rapidjson::Document nexsonDoc;
+		nexsonDoc.Parse(ccontent.c_str());
+	}
+}
+
+
 long gStrictLevel = 2;
 ////////////////////////////////////////////////////////////////////////////////
 // Creates a NxsReader, and tries to read the file `filename`.  If the
@@ -204,3 +247,5 @@ bool isTheMrcaInThisLeafSet(const NxsSimpleNode * nd,
 	}
 	return false;
 }
+
+

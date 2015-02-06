@@ -3,6 +3,13 @@
 
 This is version 2.1.21-dev of NCL by Paul O. Lewis (and others see below)
 
+## prerequesites
+To facilitate parsing of NexSON, this version of NCL has rapidjson
+as a prerequisite. Download it from https://github.com/miloyip/rapidjson
+and put the path to its include subdir in a "-I" CPPFLAGS or CXXFLAGS
+when you configure.
+
+## background
 This git repo was forked from https://github.com/mtholder/ncl
 so that all of the open tree of life developers would have write
 permissions.

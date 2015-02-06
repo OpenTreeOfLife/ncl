@@ -10,6 +10,8 @@
 #include "ncl/nxstreesblock.h"
 #include "ncl/nxsstring.h"
 #include "ncl/nxsmultiformat.h"
+
+
 template<typename T>
 const std::string & getStrOrThrow(const T & nd, const std::map<T, std::string> & tipNameMap);
 long getOTTIndex(const NxsTaxaBlockAPI * taxa,
@@ -418,6 +420,8 @@ class OTCLI {
 		int readFilepath(const std::string &fp,
 						  ProcessedTreeValidationFunction func=0L,
 						  void * blob=0L);
+		// reads a NexSON v1.2 at filepath and returns a NxsSimpleTree with the associated treeID
+		NxsSimpleTree * readTreeFromNexSONv_1_2(const std::string &filepath, const std::string & tree_id);
 		bool parseArgs(int argc, char *argv[], std::vector<std::string> & args);
 		void printHelp(std::ostream & out);
 		bool isDotTxtFile(const std::string &fp);
