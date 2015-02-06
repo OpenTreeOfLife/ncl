@@ -109,7 +109,7 @@ void OTCLI::printHelp(std::ostream & out) {
 	}
 }
 
-bool OTCLI::parseArgs(int argc, char *argv[], std::vector<std::string> args) {
+bool OTCLI::parseArgs(int argc, char *argv[], std::vector<std::string> & args) {
 	for (int i = 1; i < argc; ++i) {
 		const char * filepath = argv[i];
 		const unsigned slen = strlen(filepath);

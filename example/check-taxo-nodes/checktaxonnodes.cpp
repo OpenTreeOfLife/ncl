@@ -150,6 +150,7 @@ int main(int argc, char *argv[]) {
 	}
 	if (args.size() != 2) {
 		cerr << "Expecting a tree file and taxonomy tree.\n";
+		return 1;
 	}
 	try{
 		gOTCli.readFilepath(args[0], newTreeHook);
