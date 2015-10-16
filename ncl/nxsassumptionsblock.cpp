@@ -133,10 +133,13 @@ void NxsTransformationManager::WriteUserType(std::ostream &out) const
 				else
 					{
 					n.clear();
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
 					if (el == DBL_MAX)
 						n += "i";
 					else
 						n += el;
+#pragma clang diagnostic pop
 					out << "   " << NxsString::GetEscaped(n);
 					}
 				}
@@ -1722,14 +1725,14 @@ void NxsAssumptionsBlock::HandleCodonPosSet(
 class NxsSetVectorItemValidator
 	{
 	public:
-		virtual ~NxsSetVectorItemValidator(){};
+		virtual ~NxsSetVectorItemValidator(){}
 		virtual std::string convert(NxsToken &) = 0;
 	};
 
 class WtSetVectorItemValidator: public NxsSetVectorItemValidator
 	{
 	public:
-		virtual ~WtSetVectorItemValidator(){};
+		virtual ~WtSetVectorItemValidator(){}
 		virtual std::string convert(NxsToken & token)
 			{
 			NxsString s = token.GetToken();

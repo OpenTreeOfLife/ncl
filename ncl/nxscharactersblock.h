@@ -549,7 +549,7 @@ class NxsCharactersBlock
 			allowAugmentingOfSequenceSymbols = v;
 			}
 
-		/*! \retutrns the setting of allowAugmentingOfSequenceSymbols.
+		/*! \returns the setting of allowAugmentingOfSequenceSymbols.
 			The default is false.
 			\ref mixedDatatypes
 		*/

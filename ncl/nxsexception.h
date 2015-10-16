@@ -35,15 +35,24 @@ class NxsException: public std::exception
 		file_pos	pos;	/* current file position */
 		long		line;	/* current line in file */
 		long		col;	/* column of current line */
-		virtual ~NxsException() throw()
-			{
-			}
-
+		virtual ~NxsException() noexcept {
+		}
+		NxsException(const NxsException &rhs) {
+			NxsException::operator =(rhs);
+		}
+		NxsException & operator=(const NxsException & rhs) {
+			std::exception::operator =(rhs);
+			msg = rhs.msg;
+			pos = rhs.pos;
+			line = rhs.line;
+			col = rhs.col;
+			return *this;
+		}
 		NxsException(const std::string & s, file_pos fp = 0, long fl = 0L, long fc = 0L);
 		NxsException(const std::string &s, const NxsToken &t);
 		NxsException(const std::string &s, const ProcessedNxsToken &t);
 		NxsException(const std::string &s, const NxsTokenPosInfo &t);
-		const char * what () const throw ()
+		const char * what () const noexcept
 			{
 			return msg.empty() ? "Unknown Nexus Exception" : msg.c_str();
 			}

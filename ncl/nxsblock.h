@@ -260,7 +260,7 @@ class NxsBlock
 		void				DemandEquals(ProcessedNxsCommand::const_iterator &tokIt, const ProcessedNxsCommand::const_iterator & endIt, const char *contextString) const ;
 		void				DemandIsAtEquals(NxsToken &token, const char *contextString) const;
 		unsigned 			DemandPositiveInt(NxsToken &token, const char *contextString) const;
-		void				GenerateNxsException(NxsToken &token, const char *message = NULL) const;
+		[[noreturn]] void	GenerateNxsException(NxsToken &token, const char *message = NULL) const;
 		void				GenerateUnexpectedTokenNxsException(NxsToken &token, const char *expected = NULL) const;
 		bool				isEmpty;			/* true if this object is currently storing data */
 		bool				isEnabled;			/* true if this block is currently ebabled */

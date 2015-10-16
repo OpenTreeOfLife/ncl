@@ -523,8 +523,8 @@ class NxsFullTreeDescription
 			AssertProcessed();
 			return (flags&NXS_IS_ROOTED_BIT) != 0;
 			}
-		/*! \returns true all of the edges in the tree have edge length.
-			\raises a NxsNCLAPIException if the tree has not been processed!
+		/*! returns true all of the edges in the tree have edge length.
+			raises a NxsNCLAPIException if the tree has not been processed!
 		*/
 		bool AllEdgesHaveLengths() const
 			{
@@ -532,7 +532,7 @@ class NxsFullTreeDescription
 			return (flags&NXS_EDGE_LENGTH_UNION) == NXS_HAS_SOME_EDGE_LENGTHS_BIT;
 			}
 		/*! \returns true at least one edge in the tree have edge length
-			\raises a NxsNCLAPIException if the tree has not been processed!
+			raises a NxsNCLAPIException if the tree has not been processed!
 		*/
 		bool SomeEdgesHaveLengths() const
 			{
@@ -540,7 +540,7 @@ class NxsFullTreeDescription
 			return (flags&NXS_HAS_SOME_EDGE_LENGTHS_BIT) != 0;
 			}
 		/*! \returns true all of the edge lengths that are specified can be read as integers
-			\raises a NxsNCLAPIException if the tree has not been processed!
+			raises a NxsNCLAPIException if the tree has not been processed!
 		*/
 		bool EdgeLengthsAreAllIntegers() const
 			{
@@ -548,7 +548,7 @@ class NxsFullTreeDescription
 			return (flags&NXS_INT_EDGE_LENGTHS_BIT) != 0;
 			}
 		/*! \returns true if the tree contains all of the taxa listed in the NxsTaxaBlock associated with the trees block that generated this NxsFullTreeDescription
-			\raises a NxsNCLAPIException if the tree has not been processed!
+			raises a NxsNCLAPIException if the tree has not been processed!
 		*/
 		bool AllTaxaAreIncluded() const
 			{
@@ -556,7 +556,7 @@ class NxsFullTreeDescription
 			return (flags&NXS_HAS_ALL_TAXA_BIT) != 0;
 			}
 		/*! \returns true if some of the edges in the tree have New Hampshire Extended style comments  (see http://www.phylosoft.org/NHX)
-			\raises a NxsNCLAPIException if the tree has not been processed!
+			raises a NxsNCLAPIException if the tree has not been processed!
 		*/
 		bool HasNHXComments() const
 			{
@@ -564,7 +564,7 @@ class NxsFullTreeDescription
 			return (flags&NXS_HAS_NHX_BIT) != 0;
 			}
 		/*! \returns true if the tree has polytomies
-			\raises a NxsNCLAPIException if the tree has not been processed!
+			raises a NxsNCLAPIException if the tree has not been processed!
 		*/
 		bool HasPolytomies() const
 			{
@@ -572,7 +572,7 @@ class NxsFullTreeDescription
 			return (flags&NXS_HAS_POLYTOMY_BIT) != 0;
 			}
 		/*! \returns true if the tree some internal nodes that only have one child.
-			\raises a NxsNCLAPIException if the tree has not been processed!
+			raises a NxsNCLAPIException if the tree has not been processed!
 		*/
 		bool HasDegreeTwoNodes() const
 			{
@@ -775,7 +775,7 @@ class NxsTreesBlock
 			strings can contain numbers, taxon labels, tax set names or translate
 			table keys as taxon identifiers).
 
-			\raises NxsException
+			raises NxsException
 			This function builds trees as in memory. It may  reveal illegal newick strings that were not
 			detected as illegal on the parse, so NxsExceptions may  be raised.
 
@@ -787,7 +787,7 @@ class NxsTreesBlock
 		/* Convenience function that calls ProcessTree() one each stored
 			NxsFullTreeDescription instance.
 
-			\raises NxsException
+			raises NxsException
 			This function builds trees as in memory. It may  reveal illegal newick strings that were not
 			detected as illegal on the parse, so NxsExceptions may  be raised.
 
@@ -892,10 +892,8 @@ class NxsTreesBlock
 
 		/*! This function allows you to register a callback function that is called after each tree is parsed.
 
-			The signature of your function should be:\n
-				\code
+			The signature of your function should be:
 				bool someFunctionName(NxsFullTreeDescription &treeDesc, void * blob, NxsTreesBlock * treesB);
-				\endcode
 			where:
 				- treeDesc is the NxsFullTreeDescription for the tree that was just read.
 				- blob is pointer to any object or 0L. You supply this blob of data as an argument in

@@ -54,7 +54,7 @@
 #if defined(IGNORE_NXS_ASSERT) || defined(NDEBUG)
 #	define NCL_ASSERT(expr)
 #else
-	void ncl_assertion_failed(char const * expr, char const * function, char const * file, long line);
+	[[noreturn]] void ncl_assertion_failed(char const * expr, char const * function, char const * file, long line);
 #	define NCL_ASSERT(expr)  if (!(expr)) ncl_assertion_failed((const char *)#expr, (const char *)__FUNCTION__, __FILE__, __LINE__)
 #endif
 

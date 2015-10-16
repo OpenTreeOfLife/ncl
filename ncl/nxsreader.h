@@ -330,7 +330,7 @@ class NxsReader
 		*/
 		virtual void statusMessage(const std::string & m) const;
 
-		/*! \deprecated This function is almost never needed.
+		/*! deprecated This function is almost never needed.
 			\returns if true no blocks have registered as readers (does not indicate
 				whether content has been read, nor does it indicate if any
 				factories have been added).

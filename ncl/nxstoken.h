@@ -564,7 +564,8 @@ inline void NxsToken::AppendToToken(
 
 
 /*!
-	Returns true if character supplied is considered a whitespace character. Note: treats '\n' as darkspace if labile
+	Returns true if character supplied is considered a whitespace character. Note: treats 
+	the newline as darkspace if labile
 	flag newlineIsToken is in effect.
 */
 inline bool NxsToken::IsWhitespace(
@@ -814,7 +815,7 @@ inline void NxsToken::SetLabileFlagBit(
 	things as whether token stopped reading characters because it encountered a newline (and labileFlags bit
 	newlineIsToken was set):
 >
-	StoppedOn('\n');
+	StoppedOn('\\n');
 >
 	or whether token stopped reading characters because of a punctuation character such as a comma:
 >

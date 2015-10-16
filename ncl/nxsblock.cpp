@@ -29,7 +29,7 @@ bool NxsLabelToIndicesMapper::allowNumberAsIndexPlusOne = true; //@TEMPORARY hac
 /* i18 */ /*v2.1to2.2 18 */
 
 #if !defined(IGNORE_NXS_ASSERT) && !defined(NDEBUG)
-	void ncl_assertion_failed(char const * expr, char const * function, char const * file, long line)
+[[noreturn]] void ncl_assertion_failed(char const * expr, char const * function, char const * file, long line)
 		{
 #		if defined (ASSERTS_TO_EXCEPTIONS)
 			NxsString err;
@@ -173,11 +173,13 @@ NxsBlock::NxsCommandResult NxsBlock::HandleBasicBlockCommands(NxsToken & token)
 		HandleTitleCommand(token);
 		return NxsBlock::NxsCommandResult(HANDLED_COMMAND);
 		}
+#if 0
 	if (false && token.Equals("BLOCKID")) /*now we are skipping this to put it at the end of blocks*/
 		{
 		HandleBlockIDCommand(token);
 		return NxsBlock::NxsCommandResult(HANDLED_COMMAND);
 		}
+#endif //0
 	if (token.Equals("LINK") && this->ImplementsLinkAPI())
 		{
 		HandleLinkCommand(token);
@@ -336,7 +338,7 @@ void NxsBlock::DemandEquals(ProcessedNxsCommand::const_iterator & tokIt, const P
 
  Sets this->errormsg
 */
-void NxsBlock::GenerateNxsException(NxsToken &token, const char *message) const
+[[noreturn]] void NxsBlock::GenerateNxsException(NxsToken &token, const char *message) const
 	{
 	if (message)
 		errormsg = message;

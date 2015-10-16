@@ -93,6 +93,14 @@ class NxsString
 							NxsString();
 							NxsString(const char *s);
 							NxsString(const NxsString &s);
+		NxsString & operator=(const NxsString & rhs) {
+			std::string::operator = (rhs);
+			return *this;
+		}
+		NxsString & operator=(const std::string & rhs) {
+			std::string::operator = (rhs);
+			return *this;
+		}
 
 		static std::string	GetEscaped(const std::string &s);
 		static std::string	GetEscapedInt(const int &v);
@@ -544,8 +552,6 @@ inline bool NxsString::Equals(
 			return this->EqualsCaseInsensitive(s);
 		case NxsString::abbrev :
 			return this->IsCapAbbreviation(s);
-		default :
-			NCL_ASSERT(0);// incorrect setting for mode
 		}
 	return false;
 	}
