@@ -36,6 +36,7 @@ AC_PROG_CXX
 #Ranlib handled by check for libtool
 CXXFLAGS="$ARG_CXX_FLAGS"
 AX_CXXFLAGS
+CXXFLAGS="$CXXFLAGS $ARG_CXX_FLAGS"
 
 AC_MSG_CHECKING([whether C++ compiler works])
 AC_LANG(C++)
