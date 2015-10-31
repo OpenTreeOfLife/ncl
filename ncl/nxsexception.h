@@ -35,7 +35,7 @@ class NxsException: public std::exception
 		file_pos	pos;	/* current file position */
 		long		line;	/* current line in file */
 		long		col;	/* column of current line */
-		virtual ~NxsException() noexcept {
+		virtual ~NxsException() NOEXCEPT {
 		}
 		NxsException(const NxsException &rhs) {
 			NxsException::operator =(rhs);
@@ -52,7 +52,7 @@ class NxsException: public std::exception
 		NxsException(const std::string &s, const NxsToken &t);
 		NxsException(const std::string &s, const ProcessedNxsToken &t);
 		NxsException(const std::string &s, const NxsTokenPosInfo &t);
-		const char * what () const noexcept
+		const char * what () const NOEXCEPT
 			{
 			return msg.empty() ? "Unknown Nexus Exception" : msg.c_str();
 			}

@@ -51,10 +51,18 @@
 #	define NCL_COULD_BE_CONST
 #endif
 
+#if defined(NCL_CXX_1X) || NCL_CXX_1X
+#   define NORETURN [[noreturn]]
+#   define NOEXCEPT noexcept
+#else
+#   define NORETURN
+#   define NOEXCEPT throw()
+#endif
+
 #if defined(IGNORE_NXS_ASSERT) || defined(NDEBUG)
 #	define NCL_ASSERT(expr)
 #else
-	[[noreturn]] void ncl_assertion_failed(char const * expr, char const * function, char const * file, long line);
+	NORETURN void ncl_assertion_failed(char const * expr, char const * function, char const * file, long line);
 #	define NCL_ASSERT(expr)  if (!(expr)) ncl_assertion_failed((const char *)#expr, (const char *)__FUNCTION__, __FILE__, __LINE__)
 #endif
 

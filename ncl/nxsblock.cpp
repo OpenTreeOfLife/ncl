@@ -29,7 +29,7 @@ bool NxsLabelToIndicesMapper::allowNumberAsIndexPlusOne = true; //@TEMPORARY hac
 /* i18 */ /*v2.1to2.2 18 */
 
 #if !defined(IGNORE_NXS_ASSERT) && !defined(NDEBUG)
-[[noreturn]] void ncl_assertion_failed(char const * expr, char const * function, char const * file, long line)
+NORETURN void ncl_assertion_failed(char const * expr, char const * function, char const * file, long line)
 		{
 #		if defined (ASSERTS_TO_EXCEPTIONS)
 			NxsString err;
@@ -338,7 +338,7 @@ void NxsBlock::DemandEquals(ProcessedNxsCommand::const_iterator & tokIt, const P
 
  Sets this->errormsg
 */
-[[noreturn]] void NxsBlock::GenerateNxsException(NxsToken &token, const char *message) const
+NORETURN void NxsBlock::GenerateNxsException(NxsToken &token, const char *message) const
 	{
 	if (message)
 		errormsg = message;

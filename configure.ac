@@ -171,6 +171,17 @@ AC_ARG_WITH(
 	fi
 	])
 
+AC_ARG_WITH(
+	[cxx1x],
+	AC_HELP_STRING(
+		[--with-cxx1x=yes],
+		[Defines the NCL_CXX_1X macro so that some C++11 and C++14 constructs can be used]
+		),
+	[
+	if test "$withval" = "yes"; then
+		CPPFLAGS="-DNCL_CXX_1X $CPPFLAGS"
+	fi
+	])
 
 
 
